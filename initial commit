@@ -15,8 +15,8 @@
 			
 //Modify the following variables once the values are known
 
-			var maxA = ;			//The number of images for each position,starting at 0
-			var scale = 5;			//The scale will determine how big the images are
+			var maxA = 3;			//The number of images for each position,starting at 0
+			var scale = 6;			//The scale will determine how big the images are
 		
 		
 // p will represent the position in the museum and a will represent the angle you are facing at a given time
@@ -39,9 +39,9 @@
 		
 		//This finds the first images that should be used and loads them
 		
-			imgL.src = "hats_" + p + "_" + ((a-1) % (maxA + 1));
-			img.src = "hats_" + p + "_" + (a % (maxA+1));
-			imgR.src = "hats_" + p + "_" + ((a+1) % (maxA + 1));
+			imgL.src = "hats_" + p + "_" + ((a-1) % (maxA + 1) )+".jpg";
+			img.src = "hats_" + p + "_" + (a % (maxA+1))+".jpg";
+			imgR.src = "hats_" + p + "_" + ((a+1) % (maxA + 1))+".jpg";
 			
 			
 			
@@ -80,20 +80,20 @@
 						}
 						
 					//Recenter the images if they move too much to the left side
-						if(x < -((img.width * scale) * 0.8)){
+						if(x < -((img.width * scale) * 0.2)){
 							imgL.src = img.src;
 							img.src = imgR.src;
 							a++;
-							imgR.src = "hats_" + p + "_" + ((a+1) % (maxA + 1));
+							imgR.src = "hats_" + p + "_" + ((a+1) % (maxA + 1))+".jpg";
 							x += img.width * scale;
 						}
 					//Recenter the images if they move too much to the right side
-						if(x > (img.width * scale ) *0.8 ){
+						if(x > (img.width * scale ) *0.2 ){
 							imgR.src = img.src;
 							img.src = imgL.src;
 							a--;
-							if(a < 0) a = maxA;  //This ensures that you never have a negative value for a
-							imgL.src = "hats_" + p + "_" + ((a-1) % (maxA + 1));
+							if(a < 1) a = maxA;  //This ensures that you never have a negative value for a
+							imgL.src = "hats_" + p + "_" + ((a-1) % (maxA + 1))+".jpg";
 							x -= img.width * scale;
 						}
 						
@@ -119,7 +119,7 @@
 <body>
 
 	
-	<canvas id="myCanvas" width="2000" height="1000" style="border:1px solid #000000;"> 
+	<canvas id="myCanvas" width="1500" height="1000" style="border:1px solid #000000;"> 
 		
 	</canvas>
 
