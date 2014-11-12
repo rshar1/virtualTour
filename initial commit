@@ -15,8 +15,8 @@
 			
 //Modify the following variables once the values are known
 
-			var maxA = 3;			//The number of images for each position,starting at 0
-			var scale = 6;			//The scale will determine how big the images are
+			var maxA = 7;			//The number of images for each position,starting at 0
+			var scale = 2000/1600;			//The scale will determine how big the images are
 		
 		
 // p will represent the position in the museum and a will represent the angle you are facing at a given time
@@ -26,6 +26,10 @@
 			$(document).ready(function(){
 			c = document.getElementById("myCanvas");
 			ctx = c.getContext("2d");
+			maxA = 7;
+			scale = 2000 / 1600;
+			p=0;
+			a= maxA+1;
 			x = 0;
 			y = 0;
 			imgL = new Image();
@@ -38,23 +42,27 @@
 		*/
 		
 		//This finds the first images that should be used and loads them
-		
+			
 			imgL.src = "hats_" + p + "_" + ((a-1) % (maxA + 1) )+".jpg";
 			img.src = "hats_" + p + "_" + (a % (maxA+1))+".jpg";
 			imgR.src = "hats_" + p + "_" + ((a+1) % (maxA + 1))+".jpg";
 			
 			
 			
+			
+			
+			
 		//Draw the images when the page loads
-		
+			
 			ctx.drawImage(imgL,x-img.width * scale,y,img.width* scale,img.height * scale);
-			ctx.drawImage(img,x,y,img.width * scale,img.height * scale);
-			ctx.drawImage(imgR,x+img.width * scale,y,img.width * scale,img.height * scale);
+						ctx.drawImage(img,x,y,img.width * scale,img.height * scale);
+						ctx.drawImage(imgR,x+img.width * scale,y,img.width * scale,img.height * scale);
 		
 
 					
 				
 					$(document).keydown(function(event){
+						
 						
 						var c = document.getElementById("myCanvas");
 						var ctx = c.getContext("2d");
@@ -119,7 +127,7 @@
 <body>
 
 	
-	<canvas id="myCanvas" width="1500" height="1000" style="border:1px solid #000000;"> 
+	<canvas id="myCanvas" width="2000" height="1500" style="border:1px solid #000000;"> 
 		
 	</canvas>
 
