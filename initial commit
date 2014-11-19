@@ -18,23 +18,33 @@
 		imgR = new Image();
 		maxA = 8;
 		a = 0;
-		
-		
-		imgL.src = "hats_0_0.jpg";
-		imgR.src = "hats_0_1.jpg";
 		canvas = document.getElementById("myCanvas");
 		ctx = canvas.getContext("2d");
 		x = canvas.width/2;
 		
+		imgR.onload = function(){
+			scale = canvas.height / imgR.height;
+			ctx.drawImage(imgR,x,0,imgR.width *scale,imgR.height*scale)
+			
+		}
+		imgL.onload = function(){
+			ctx.drawImage(imgL,x-(imgL.width *scale),0,imgL.width *scale,imgL.height*scale);
+		}
+		imgR.src = "hats_0_1.jpg";
+		imgL.src = "hats_0_0.jpg";
+		
+		
+		
+		
 	//Draw the images
-		ctx.drawImage(imgR,x,0)
-		ctx.drawImage(imgL,x-imgR.width,0);
+		
+		
 		
 	})
 
 
 	$(document).keydown(function(event){
-		scale = canvas.height / imgR.height;
+		
 		//Left Arrow
 		if(event.which == 37){
 			x += 20;
