@@ -1,0 +1,149 @@
+<html>
+    <head>
+        <title>
+            Virtual Tour
+        </title>
+        <script src = "http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src = "jscode.js"></script>
+        <script>
+            
+            
+            //Data for all the Spheres
+            
+            var mySpheres =
+            
+            [
+                [
+                    [
+                      new Sphere(
+                        "hats_0.jpg",
+                        [new Arrow(-135,0,0,1)]
+                      ),
+                      new Sphere(
+                        "hats_1.jpg",
+                        [new Arrow(-135,0,0,2),new Arrow(-315,0,0,0)]
+                      ),
+                      new Sphere(
+                        "hats_2.jpg",
+                        [new Arrow(-135,0,0,3),new Arrow(-315,0,0,1)]
+                      ),
+                      new Sphere(
+                        "IMG_6544.jpg",
+                        [new Arrow(-135,0,0,4),new Arrow(-315,0,0,2)]
+                      ),
+                      new Sphere(
+                        "IMG_6533.jpg",
+                        [new Arrow(-135,0,0,5),new Arrow(-315,0,0,3)]
+                      ),
+                      new Sphere(
+                        "IMG_6534.jpg",
+                        [new Arrow(-135,0,0,6),new Arrow(-315,0,0,4)]
+                      ),
+                      new Sphere(
+                        "IMG_6541.jpg",
+                        [new Arrow(-135,0,0,7),new Arrow(-315,0,0,5)]
+                      ),
+                      new Sphere(
+                        "IMG_6543.jpg",
+                        [new Arrow(-315,0,0,6)]
+                      )
+                    ]
+                ]
+            ];
+            
+            
+            var floor = 0;
+            var room = 0;
+            var cAngle = -135;
+            var y = -720;
+            var canvas;
+            var currentSphere;
+            Arrow.prototype.img = new Image();
+            Arrow.prototype.img.src = "arrow.png";
+            $(document).ready(function(){
+                currentSphere = mySpheres[0][0][0];
+                currentSphere.img.onload = function(){ currentSphere.update(cAngle,y);}
+                currentSphere.load();
+                loadSpheres();
+                $(document).keydown(function(event){
+                    if (event.which == 37)
+                    {
+                        cAngle += 5;
+                    }
+                    if (event.which == 39){
+                        cAngle -= 5;
+                        
+                    }
+                    if (event.which == 40){
+                        var canvas = document.getElementById("myCanvas");
+                        if (!(y + (currentSphere.img.height * currentSphere.scale) <= canvas.height )){
+                            y-=20;
+                        }
+                    }
+                    if (event.which == 38){
+                        if (!(y >= 0)) {
+                            y+=20;
+                        }
+                    }
+                    cAngle %= 360;
+                    currentSphere.update(cAngle, y);
+                    displayRoom();
+                })
+                    canvas = document.getElementById("myCanvas");
+                    function getMousePos(canvas, evt) {
+                    var rect = canvas.getBoundingClientRect();
+                    return {
+                        x: evt.clientX - rect.left,
+                        y: evt.clientY - rect.top
+                    };
+                    }  
+                
+
+                canvas.addEventListener('click', function(evt) {
+                    var mousePos = getMousePos(canvas, evt);
+                    var arr = currentSphere.checkArrows(mousePos.x,mousePos.y);
+                    if(arr != null){   //Check arrows checks if an arrow was hit. If so it will return the x, y, and z of the arrow
+                        currentSphere = mySpheres[arr.x][arr.y][arr.z];                 //This will get the x, y , and z values of the arrow that was hit
+                        currentSphere.load();                                           //This will have the images loaded for that image
+                        loadSpheres();
+                        currentSphere.update(cAngle,y);					//This will draw the new image at the angle
+                    }
+                
+                }, false);
+            })
+            
+            
+            function loadSpheres(){
+                var arrows = currentSphere.myArrows;
+                
+                if (arrows != null) {
+                    for(var index = 0; index < arrows.length; index++){
+                        mySpheres[arrows[index].x][arrows[index].y][arrows[index].z].load();
+                    }
+                }
+            }
+            
+            function displayRoom(){
+                var ctx = canvas.getContext('2d');
+                ctx.font = "60px Arial";
+                ctx.fillStyle = "rgba(0,0,0,0.5)";
+                ctx.fillRect(0,0,canvas.width,canvas.height * .1);
+                ctx.fillStyle = "rgba(255,255,255,0.5)";
+                if (floor == 0)
+                {
+                    if(room == 0){ctx.fillText("Hat Room", canvas.width / 2, canvas.height * .05);}
+                }
+            }
+            
+            
+        </script>
+        <style>
+            
+            
+            
+        </style>
+    </head>
+    <body>
+        <canvas id = "myCanvas"  width = "2000" height = "1200" style = "border: 1px solid black"> </canvas>
+    </body>
+</html>
